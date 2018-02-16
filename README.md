@@ -1,17 +1,16 @@
-# passport-gitlab2
+# passport-gitlub
 
-The original Passport-GitLab module has not been maintained for a long time.
-Due to the unclear license situation and issues in the code, this library was
-rewritten based on Passport-Facebook and published under the MIT license.
+Forked from [fh1ch/passport-gitlab2](https://github.com/fh1ch/passport-gitlub)
+But modified to work with [Gitlub](https://gitlub.club)
 
-[![npm version](https://badge.fury.io/js/passport-gitlab2.svg)](http://badge.fury.io/js/passport-gitlab2)
-[![Build Status](https://travis-ci.org/fh1ch/passport-gitlab2.svg?branch=master&style=flat)](https://travis-ci.org/fh1ch/passport-gitlab2)
-[![Coverage Status](https://coveralls.io/repos/fh1ch/passport-gitlab2/badge.svg?branch=master)](https://coveralls.io/r/fh1ch/passport-gitlab2?branch=master)
-[![Code Climate](https://codeclimate.com/github/fh1ch/passport-gitlab2/badges/gpa.svg)](https://codeclimate.com/github/fh1ch/passport-gitlab2)
-[![Dependency Status](https://david-dm.org/fh1ch/passport-gitlab2.svg?theme=shields.io)](https://david-dm.org/fh1ch/passport-gitlab2)
+[![npm version](https://badge.fury.io/js/passport-gitlub.svg)](http://badge.fury.io/js/passport-gitlub)
+[![Build Status](https://travis-ci.org/thetetrabyte/passport-gitlub.svg?branch=master&style=flat)](https://travis-ci.org/thetetrabyte/passport-gitlub)
+[![Coverage Status](https://coveralls.io/repos/thetetrabyte/passport-gitlub/badge.svg?branch=master)](https://coveralls.io/r/thetetrabyte/passport-gitlub?branch=master)
+[![Code Climate](https://codeclimate.com/github/thetetrabyte/passport-gitlub/badges/gpa.svg)](https://codeclimate.com/github/thetetrabyte/passport-gitlub)
+[![Dependency Status](https://david-dm.org/thetetrabyte/passport-gitlub.svg?theme=shields.io)](https://david-dm.org/thetetrabyte/passport-gitlub)
 
 [Passport](http://passportjs.org/) strategy for authenticating with
-[GitLab](https://gitlab.com/) using the OAuth2 authentication provider service.
+[Gitlub](https://gitlub.club/) using the OAuth2 authentication provider service.
 
 This module lets you authenticate using GitLab in your Node.js applications.
 By plugging into Passport, GitLab authentication can be easily and
@@ -22,12 +21,12 @@ unobtrusively integrated into any application or framework that supports
 ## Install
 
 ```bash
-$ npm install passport-gitlab2
+$ npm install passport-gitlub
 ```
 
 ## Usage
 
-Passport-GitLab requires GitLab 7.7.0 or higher to work. Before using the OAuth2
+Passport-Gitlub requires GitLab 7.7.0 or higher to work. Before using the OAuth2
 authentication provider service, you have register a new application in your
 [user profile](https://gitlab.com/profile/applications) or in the administrator
 portal. GitLab will then issue an application ID and a secret, which need to be
@@ -45,13 +44,13 @@ GitLab profile. The `verify` callback must call `cb` providing a user to
 complete authentication.
 
 ```js
-passport.use(new GitLabStrategy({
-    clientID: GITLAB_APP_ID,
-    clientSecret: GITLAB_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/gitlab/callback"
+passport.use(new GitLubStrategy({
+    clientID: GITLUB_APP_ID,
+    clientSecret: GITLUB_APP_SECRET,
+    callbackURL: "http://localhost:3000/auth/gitlub/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({gitlabId: profile.id}, function (err, user) {
+    User.findOrCreate({gitlubId: profile.id}, function (err, user) {
       return cb(err, user);
     });
   }
@@ -60,17 +59,17 @@ passport.use(new GitLabStrategy({
 
 #### Authenticate Requests
 
-Use `passport.authenticate()`, specifying the `'gitlab'` strategy, to
+Use `passport.authenticate()`, specifying the `'gitlub'` strategy, to
 authenticate requests.
 
 For example, as route middleware in an [Express](http://expressjs.com/)
 application:
 
 ```js
-app.get('/auth/gitlab', passport.authenticate('gitlab'));
+app.get('/auth/gitlub', passport.authenticate('gitlub'));
 
-app.get('/auth/gitlab/callback',
-  passport.authenticate('gitlab', {
+app.get('/auth/gitlub/callback',
+  passport.authenticate('gitlub', {
     failureRedirect: '/login'
   }),
   function(req, res) {
@@ -81,25 +80,6 @@ app.get('/auth/gitlab/callback',
 
 ## FAQ
 
-##### How do I use my own GitLab instance rather than gitlab.com?
-
-Passport-GitLab automatically uses [GitLab.com](http://gitlab.com/) as
-authentication endpoint when not configured otherwise. You can use the `baseURL`
-parameter to point to any other GitLab instance as following:
-
-```js
-new GitLabStrategy({
-  clientID: GITLAB_APP_ID,
-  clientSecret: GITLAB_APP_SECRET,
-  callbackURL: "http://localhost:3000/auth/gitlab/callback",
-  baseURL: "https://gitlab.example.com/"
-}), ...)
-```
-
-All URLs (e.g. token-url, authorization-url, profile-url) are automatically
-adapted to utilize the configured instance. You can of course overwrite all
-URLs manually if needed.
-
 ##### How do I change permissions / scope when obtaining a user profile?
 
 GitLab supports two scopes at the moment which are `read_user` and `api`. By
@@ -109,8 +89,8 @@ or you need full read/write access to all API resources, use the `api` scope
 instead. Changing the OAuth2 scope to `api` works as following:
 
 ```js
-app.get('/auth/gitlab',
-  passport.authenticate('gitlab', {
+app.get('/auth/gitlub',
+  passport.authenticate('gitlub', {
     scope: ['api']
   }));
 ```
